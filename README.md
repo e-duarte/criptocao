@@ -1,2 +1,2 @@
 # criptocao
-Algoritmo de criptografia Simétrica Simpĺes
+Algoritmo de criptografia simétrica Simpĺes
