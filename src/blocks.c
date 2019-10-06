@@ -15,3 +15,11 @@ struct block {
 void blocks_initialize(Blockchain* bc, char * src){
     
 }
+
+Blockchain* blocks_create(){
+    Blockchain* bc = (Blockchain*) malloc(sizeof(Blockchain));
+
+    if(bc != NULL)
+        *bc =  NULL;
+    return NULL;
+}
