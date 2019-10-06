@@ -30,7 +30,7 @@ void blocks_initialize(Blockchain* bc, char * src){
     char buffer[16];
     int nbytes;
     while(nbytes = fread(&buffer, sizeof(char), 16, plantext)){
-        Block *block = blocks_createblock(buffer);
+        Block *block = blocks_createblock(buffer, nbytes);
         Block *aux = (*bc), *ant;
         while(aux != NULL){
             ant = aux;
