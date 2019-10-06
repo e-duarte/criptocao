@@ -14,7 +14,7 @@ Blockchain* blocks_create(){
     Blockchain* bc = (Blockchain*) malloc(sizeof(Blockchain));
 
     if(bc != NULL)
-        *bc =  NULL;
+        *bc = NULL;
     return bc;
 }
 
@@ -27,7 +27,10 @@ Block* blocks_createblock(char* val, int nb){
         *m = *val++;
         m++;
     }
-
+    /*Preenche a matriz de estado com $
+     *caso a quantidade de bytes lidos
+     * não seja igual ao tamanho do estado.
+     */
     if(nb < SIZE*SIZE){
         for(int i=0; i<SIZE*SIZE-nb; i++){
             *m = '$';
@@ -60,11 +63,12 @@ void blocks_initialize(Blockchain* bc, char * src){
             ant = aux;
             aux = aux->prox;
         }
-        
+       //Insere no inicio 
         if(ant ==  NULL)
             *bc = block;
         else
             ant->prox = block;
+        
     }
 
     fclose(plaintext);
@@ -78,6 +82,7 @@ void blocks_print(Blockchain* bc){
         }
         printf("\n");
         (*bc) = (*bc)->prox;
+        val = *((*bc)->val.state);
     }
 }
 
