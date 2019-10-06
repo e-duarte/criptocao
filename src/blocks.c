@@ -78,22 +78,41 @@ State blocks_nextblock(Blockchain* bc){
         printf("[ERRO] NULLPOINTER\n");
         exit(EXIT_FAILURE);
     }
+    if(*bc == NULL){
+        printf("[ERRO] NULLPOINTER\n");
+        exit(EXIT_FAILURE);
+    }
+
     Block* b = *bc;
-    State s = b->val;
-    *bc = (*bc)->prox;
+    State s;
+    s.nbytes = b->val.nbytes;
+    for(int i = 0; i < s.nbytes/4; i++){
+        for(int j = 0; j < s.nbytes/4; j++){
+            s.state[i][j] = b->val.state[i][j];
+        }
+    }
+    *bc = b->prox;
     free(b);
     return s;
 }
 
 void blocks_print(Blockchain* bc){
-    char *val = *((*bc)->val.state);
-    while(*bc != NULL){
-        for(int i = 0; i < SIZE*SIZE; i++){
-            printf("%c ", *val++);
-        }
-        printf("\n");
-        (*bc) = (*bc)->prox;
-        val = *((*bc)->val.state);
+    if(bc == NULL){
+        printf("[ERRO] NULLPOINTER\n");
+        exit(EXIT_FAILURE);
+    }
+    if(*bc == NULL){
+        printf("[ERRO] NULLPOINTER\n");
+        exit(EXIT_FAILURE);
+    }
+
+    Block* aux = *bc;
+    while(aux != NULL){
+       char* val = *(aux->val.state);
+       for(int i = 0; i < SIZE*SIZE; i++)
+           printf("%c ", *val++);
+       printf("\n");
+       aux = aux->prox;
     }
 }
 
