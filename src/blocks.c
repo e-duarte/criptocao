@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "blocks.h"
+#include "../headers/blocks.h"
 
 // Tamanho dos blocos são 128 bits
 struct node{
