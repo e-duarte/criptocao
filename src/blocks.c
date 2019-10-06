@@ -20,3 +20,7 @@ Blockchain* blockchain_create(){
         *bc =  NULL;
     return NULL;
 }
+
+Block* blocks_create_block(char* val){
+    
+}
