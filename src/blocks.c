@@ -11,9 +11,12 @@ struct block {
     struct block* prox;
 };
 
-typedef struct block Block;
 
-Blockchain* blockchain_create(){
+void blocks_initialize(Blockchain* bc, char * src){
+    
+}
+
+Blockchain* blocks_create(){
     Blockchain* bc = (Blockchain*) malloc(sizeof(Blockchain));
 
     if(bc != NULL)
