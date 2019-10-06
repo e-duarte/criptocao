@@ -3,13 +3,6 @@
 #include "blocks.h"
 
 // Tamanho dos blocos são 128 bits
-#define SIZE 4
-
-struct block {
-    char state[SIZE][SIZE];
-    int nbytes;
-    struct block* prox;
-};
 
 
 void blocks_initialize(Blockchain* bc, char * src){
@@ -24,6 +17,23 @@ Blockchain* blocks_create(){
     return NULL;
 }
 
-Block* blocks_create_block(char* val){
-    
+Block* blocks_createblock(char* val, int nb){
+    Block* b = (Block*) malloc(sizeof(Block));
+    b->nbytes = 0;
+    b->prox = NULL;
+    char* m = *(b->state);
+    for(int i=0; i<nb; i++){
+        *m = *val++;
+        m++;
+    }
+
+    if(nb < SIZE*SIZE){
+        for(int i=0; i<SIZE*SIZE-nb; i++){
+            *m = '$';
+            m++;
+        }
+            
+    }
+
+    return b;
 }
