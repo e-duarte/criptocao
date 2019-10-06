@@ -3,46 +3,80 @@
 #include "blocks.h"
 
 // Tamanho dos blocos são 128 bits
-#define SIZE 4
-
-struct block {
-    char state[SIZE][SIZE];
-    int nbytes;
-    struct block* prox;
+struct node{
+    struct state val;
+    struct node* prox;
 };
 
+typedef struct node Block;
 
 Blockchain* blocks_create(){
     Blockchain* bc = (Blockchain*) malloc(sizeof(Blockchain));
 
     if(bc != NULL)
         *bc =  NULL;
-    return NULL;
+    return bc;
 }
 
+Block* blocks_createblock(char* val, int nb){
+    Block* b = (Block*) malloc(sizeof(Block));
+    b->val.nbytes = nb;
+    b->prox = NULL;
+    char* m = *(b->val.state);
+    for(int i=0; i<nb; i++){
+        *m = *val++;
+        m++;
+    }
+
+    if(nb < SIZE*SIZE){
+        for(int i=0; i<SIZE*SIZE-nb; i++){
+            *m = '$';
+            m++;
+        }
+    }
+
+    return b;
+}
+
+
 void blocks_initialize(Blockchain* bc, char * src){
-    FILE *plantext = fopen(src, "rb");
-    if(plantext == NULL){
-        printf("[ERRO] arquivo não encontrado");
+    if(bc == NULL){
+        printf("[ERRO] NULLPOINTER\n");
+        exit(EXIT_FAILURE);
+    }
+
+    FILE *plaintext = fopen(src, "rb");
+    if(plaintext == NULL){
+        printf("[ERRO] arquivo não encontrado\n");
         exit(EXIT_FAILURE);
     }
 
     char buffer[16];
     int nbytes;
-    while(nbytes = fread(&buffer, sizeof(char), 16, plantext)){
-        Block *block = blocks_createblock(buffer, nbytes);
-        Block *aux = (*bc), *ant;
+    while(nbytes = fread(buffer, sizeof(char), 16, plaintext)){
+        Block* block = blocks_createblock(buffer, nbytes);
+        Block* aux = *bc, *ant;
         while(aux != NULL){
             ant = aux;
             aux = aux->prox;
         }
-
+        
         if(ant ==  NULL)
             *bc = block;
         else
             ant->prox = block;
     }
+    fclose(plaintext);
+}
 
-    fclose(plantext);
+void blocks_print(Blockchain* bc){
+    char *val = *((*bc)->val.state);
+    while(*bc != NULL){
+        for(int i = 0; i < SIZE*SIZE; i++){
+            printf("%c ", *val++);
+        }
+        printf("\n");
+        (*bc) = (*bc)->prox;
+    }
 }
 
