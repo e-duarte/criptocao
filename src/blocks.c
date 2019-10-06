@@ -51,11 +51,11 @@ void blocks_initialize(Blockchain* bc, char * src){
         exit(EXIT_FAILURE);
     }
 
-    char buffer[16];
+    char buffer[SIZE*SIZE];
     int nbytes;
-    while(nbytes = fread(buffer, sizeof(char), 16, plaintext)){
+    while(nbytes = fread(buffer, sizeof(char), SIZE*SIZE, plaintext)){
         Block* block = blocks_createblock(buffer, nbytes);
-        Block* aux = *bc, *ant;
+        Block* aux = *bc, *ant = *bc;
         while(aux != NULL){
             ant = aux;
             aux = aux->prox;
@@ -66,6 +66,7 @@ void blocks_initialize(Blockchain* bc, char * src){
         else
             ant->prox = block;
     }
+
     fclose(plaintext);
 }
 
