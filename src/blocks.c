@@ -73,6 +73,18 @@ void blocks_initialize(Blockchain* bc, char * src){
     fclose(plaintext);
 }
 
+State blocks_nextblock(Blockchain* bc){
+    if(bc == NULL){
+        printf("[ERRO] NULLPOINTER\n");
+        exit(EXIT_FAILURE);
+    }
+    Block* b = *bc;
+    State s = b->val;
+    *bc = (*bc)->prox;
+    free(b);
+    return s;
+}
+
 void blocks_print(Blockchain* bc){
     char *val = *((*bc)->val.state);
     while(*bc != NULL){
