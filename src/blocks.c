@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "blocks.h"
+#include "../headers/blocks.h"
 
 // Tamanho dos blocos são 128 bits
 struct node{
@@ -54,9 +54,9 @@ void blocks_initialize(Blockchain* bc, char * src){
         exit(EXIT_FAILURE);
     }
 
-    char buffer[16];
+    char buffer[SIZE*SIZE];
     int nbytes;
-    while(nbytes = fread(buffer, sizeof(char), 16, plaintext)){
+    while(nbytes = fread(buffer, sizeof(char), SIZE*SIZE, plaintext)){
         Block* block = blocks_createblock(buffer, nbytes);
         Block* aux = *bc, *ant = *bc;
         while(aux != NULL){
@@ -70,6 +70,7 @@ void blocks_initialize(Blockchain* bc, char * src){
             ant->prox = block;
         
     }
+
     fclose(plaintext);
 }
 
