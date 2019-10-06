@@ -11,4 +11,7 @@ struct block {
     struct block* prox;
 };
 
-typedef struct block* Block
+
+void blocks_initialize(Blockchain* bc, char * src){
+    
+}
