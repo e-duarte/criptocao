@@ -1,5 +1,6 @@
 #define SIZE 4
 
+// Tamanho dos blocos são 128 bits
 struct state {
     char state[SIZE][SIZE];
     int nbytes;

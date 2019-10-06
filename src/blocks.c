@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include "../headers/blocks.h"
 
-// Tamanho dos blocos são 128 bits
 struct node{
     struct state val;
     struct node* prox;
