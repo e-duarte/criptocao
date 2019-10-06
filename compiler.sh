@@ -1,5 +1,4 @@
 #!/bin/bash
-
 cd obj/
 gcc -c ../src/blocks.c
 gcc -c ../src/main.c
