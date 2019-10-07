@@ -5,6 +5,7 @@ struct state {
     char state[SIZE][SIZE];
     int nbytes;
 };
+
 typedef struct state State;
 typedef struct node* Blockchain;
 
