@@ -16,12 +16,7 @@ int randomInteger (int low, int high){
 }
 
 char* cripto_generatekey(){
-    FILE* key = fopen(SRC_KEY, "w");
-
-    if(key == NULL){
-        printf("[ERRO] arquivo não encontrado\n");
-        exit(EXIT_FAILURE);
-    }
+    FILE* key = open_file(SRC_KEY, "w");
 
     srand(time(NULL));
     for(int i = 0; i < SIZE*SIZE; i++)
