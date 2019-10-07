@@ -12,3 +12,4 @@ Blockchain* blocks_create();
 void blocks_initialize(Blockchain* bc, char * src);
 void blocks_print(Blockchain* bc);
 State blocks_nextblock(Blockchain * bc);
+void blocks_destroy(Blockchain* bc);

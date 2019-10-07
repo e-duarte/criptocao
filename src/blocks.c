@@ -40,18 +40,26 @@ Block* blocks_createblock(char* val, int nb){
     return b;
 }
 
-
-void blocks_initialize(Blockchain* bc, char * src){
-    if(bc == NULL){
+void nullpointer(void* pointer){
+    if(pointer == NULL){
         printf("[ERRO] NULLPOINTER\n");
         exit(EXIT_FAILURE);
     }
+}
 
-    FILE *plaintext = fopen(src, "rb");
+FILE* open_file(char* src){
+    FILE* plaintext = fopen(src, "rb");
     if(plaintext == NULL){
         printf("[ERRO] arquivo não encontrado\n");
         exit(EXIT_FAILURE);
     }
+    return plaintext;
+}
+
+void blocks_initialize(Blockchain* bc, char * src){
+    nullpointer(bc);
+
+    FILE* plaintext = open_file(src);
 
     char buffer[SIZE*SIZE];
     int nbytes;
@@ -74,14 +82,8 @@ void blocks_initialize(Blockchain* bc, char * src){
 }
 
 State blocks_nextblock(Blockchain* bc){
-    if(bc == NULL){
-        printf("[ERRO] NULLPOINTER\n");
-        exit(EXIT_FAILURE);
-    }
-    if(*bc == NULL){
-        printf("[ERRO] NULLPOINTER\n");
-        exit(EXIT_FAILURE);
-    }
+    nullpointer(bc);
+    nullpointer(*bc);
 
     Block* b = *bc;
     State s;
@@ -97,14 +99,8 @@ State blocks_nextblock(Blockchain* bc){
 }
 
 void blocks_print(Blockchain* bc){
-    if(bc == NULL){
-        printf("[ERRO] NULLPOINTER\n");
-        exit(EXIT_FAILURE);
-    }
-    if(*bc == NULL){
-        printf("[ERRO] NULLPOINTER\n");
-        exit(EXIT_FAILURE);
-    }
+    nullpointer(bc);
+    nullpointer(*bc);
 
     Block* aux = *bc;
     while(aux != NULL){
@@ -114,5 +110,17 @@ void blocks_print(Blockchain* bc){
        printf("\n");
        aux = aux->prox;
     }
+}
+
+void blocks_destroy(Blockchain* bc){
+    nullpointer(bc);
+
+    Block* b;
+    while(*bc != NULL){
+        b = *bc;
+        *bc = b->prox;
+        free(b); 
+    }
+    free(bc);
 }
 
