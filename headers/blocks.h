@@ -11,4 +11,5 @@ typedef struct node* Blockchain;
 Blockchain* blocks_create();
 void blocks_initialize(Blockchain* bc, char * src);
 void blocks_print(Blockchain* bc);
-State blocks_nextblock(Blockchain * bc);
+State blocks_nextblock(Blockchain* bc);
+void blocks_free(Blockchain* bc);

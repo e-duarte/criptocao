@@ -116,3 +116,10 @@ void blocks_print(Blockchain* bc){
     }
 }
 
+void blocks_free(Blockchain* bc){
+    while(*bc != NULL){
+        Block* b = *bc;
+        *bc = (*bc)->prox;
+        free(b);
+    }
+}
