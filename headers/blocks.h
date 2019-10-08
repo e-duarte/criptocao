@@ -2,7 +2,7 @@
 
 // Tamanho dos blocos são 128 bits
 struct state {
-    char state[SIZE][SIZE];
+    int state[SIZE][SIZE];
     int nbytes;
 };
 
@@ -15,3 +15,4 @@ void blocks_print(Blockchain* bc);
 State* blocks_nextblock(Blockchain * bc);
 void blocks_destroy(Blockchain* bc);
 FILE* open_file(char* src, char* mode);
+State* get(Blockchain* bc, int i);

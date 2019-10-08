@@ -21,9 +21,10 @@ Block* blocks_createblock(char* val, int nb){
     Block* b = (Block*) malloc(sizeof(Block));
     b->val.nbytes = nb;
     b->prox = NULL;
-    char* m = *(b->val.state);
+    int* m = *(b->val.state);
     for(int i=0; i<nb; i++){
-        *m = *val++;
+        int ival = *val++;
+        *m = ival;
         m++;
     }
     /*Preenche a matriz de estado com $
@@ -32,7 +33,8 @@ Block* blocks_createblock(char* val, int nb){
      */
     if(nb < SIZE*SIZE){
         for(int i=0; i<SIZE*SIZE-nb; i++){
-            *m = '$';
+            int ival = '$';
+            *m = ival;
             m++;
         }
     }
@@ -105,7 +107,7 @@ void blocks_print(Blockchain* bc){
 
     Block* aux = *bc;
     while(aux != NULL){
-       char* val = *(aux->val.state);
+       int* val = *(aux->val.state);
        for(int i = 0; i < SIZE*SIZE; i++)
            printf("%c ", *val++);
        printf("\n");
@@ -123,5 +125,18 @@ void blocks_destroy(Blockchain* bc){
         free(b); 
     }
     free(bc);
+}
+
+State* get(Blockchain* bc, int i){
+    Block* aux = *bc;
+    int r = 0;
+    while(aux != NULL && r != i){
+        aux = aux->prox;
+        r++;
+    }
+
+    if(aux == NULL)
+        return NULL;
+    return &(aux->val);
 }
 
