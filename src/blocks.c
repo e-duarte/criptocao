@@ -81,16 +81,17 @@ void blocks_initialize(Blockchain* bc, char * src){
     fclose(plaintext);
 }
 
-State blocks_nextblock(Blockchain* bc){
+State* blocks_nextblock(Blockchain* bc){
     nullpointer(bc);
-    nullpointer(*bc);
+    if(*bc == NULL)
+        return NULL;
 
     Block* b = *bc;
-    State s;
-    s.nbytes = b->val.nbytes;
-    for(int i = 0; i < s.nbytes/4; i++){
-        for(int j = 0; j < s.nbytes/4; j++){
-            s.state[i][j] = b->val.state[i][j];
+    State* s = (State *)malloc(sizeof(State));
+    s->nbytes = b->val.nbytes;
+    for(int i = 0; i < s->nbytes/4; i++){
+        for(int j = 0; j < s->nbytes/4; j++){
+            s->state[i][j] = b->val.state[i][j];
         }
     }
     *bc = b->prox;
