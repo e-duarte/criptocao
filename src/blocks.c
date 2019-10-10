@@ -21,21 +21,17 @@ Block* blocks_createblock(char* val, int nb){
     Block* b = (Block*) malloc(sizeof(Block));
     b->val.nbytes = nb;
     b->prox = NULL;
-    int* m = *(b->val.state);
-    for(int i=0; i<nb; i++){
-        int ival = *val++;
-        *m = ival;
-        m++;
+    char* m = *(b->val.state);
+    for(int i=0; i<nb; i++, m++, val++){
+        *m = *val;
     }
     /*Preenche a matriz de estado com $
      *caso a quantidade de bytes lidos
      * não seja igual ao tamanho do estado.
      */
     if(nb < SIZE*SIZE){
-        for(int i=0; i<SIZE*SIZE-nb; i++){
-            int ival = '$';
-            *m = ival;
-            m++;
+        for(int i=0; i<SIZE*SIZE-nb; i++, m++){
+            *m = '$';
         }
     }
 
@@ -61,7 +57,7 @@ FILE* open_file(char* src, char* mode){
 void blocks_initialize(Blockchain* bc, char * src){
     nullpointer(bc);
 
-    FILE* plaintext = open_file(src, "rb");
+    FILE* plaintext = open_file(src, "r");
 
     char buffer[SIZE*SIZE];
     int nbytes;
@@ -107,9 +103,9 @@ void blocks_print(Blockchain* bc){
 
     Block* aux = *bc;
     while(aux != NULL){
-       int* val = *(aux->val.state);
+       char* val = *(aux->val.state);
        for(int i = 0; i < SIZE*SIZE; i++)
-           printf("%d ", *val++);
+           printf("%c ", *val++);
        printf("\n");
        aux = aux->prox;
     }

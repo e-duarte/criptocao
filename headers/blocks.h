@@ -2,7 +2,7 @@
 
 // Tamanho dos blocos são 128 bits
 struct state {
-    int state[SIZE][SIZE];
+    unsigned char state[SIZE][SIZE];
     int nbytes;
 };
 

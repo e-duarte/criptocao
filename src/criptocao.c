@@ -3,8 +3,11 @@
 #include <time.h>
 #include "../headers/criptocao.h"
 
-#define LIMIT_I 32
-#define LIMIT_S 256
+
+#define BIT_ML 64
+#define BIT_MR 1
+#define LIMIT_I 0
+#define LIMIT_S 127
 #define SRC_KEY "privat_key.txt"
 #define SRC_ENCRIPTY "encripty_file.txt"
 #define SRC_DECIPHERED "deciphered_file.txt"
@@ -28,16 +31,16 @@ char* cripto_generatekey(){
 }
 
 
-void troca_linhas(int mat[SIZE][SIZE], int n, int m){
+void troca_linhas(char mat[SIZE][SIZE], int n, int m){
     for(int i = 0; i < 4; i++){
-        int aux = mat[n][i];
+        char aux = mat[n][i];
         mat[n][i] = mat[m][i];
         mat[m][i] = aux;
     }
 }
 
 
-int eliminacao(int mat[SIZE][SIZE], int n){
+int eliminacao(char mat[SIZE][SIZE], int n){
     for(int i = 0; i < n-1; i++){
         for(int j = i + 1; j < n; j++){
             int aux = j;
@@ -59,9 +62,8 @@ int eliminacao(int mat[SIZE][SIZE], int n){
     return 1;
 }
 
-void copy_matriz(int* mat1, int* mat2){
-   
-    int *aux1 = mat1, *aux2 = mat2;
+void copy_matriz(char* mat1, char* mat2){
+    char *aux1 = mat1, *aux2 = mat2;
     for(int i = 0; i < SIZE*SIZE; i++){
         *aux2 = *aux1;
         aux1++;aux2++;
@@ -70,7 +72,7 @@ void copy_matriz(int* mat1, int* mat2){
 
 
 int cripto_determinant(State* state){
-    int mat2[SIZE][SIZE];
+    char mat2[SIZE][SIZE];
     copy_matriz(*(state->state), *mat2); 
     int val = 1;
     if(eliminacao(mat2, SIZE)){
@@ -85,47 +87,71 @@ int cripto_determinant(State* state){
 void teste(State* state){
     for(int i =0; i < 4; i++){
         for(int j = 0; j < 4; j++){
-            printf("%c\t", state->state[i][j]);
+            printf("%d\t", state->state[i][j]);
         }
         printf("\n");
     }
 }
 void cripto_shiftleft(State* state, int det){
-    nullpointer(state);
-
-    int* val = *(state->state);
-    for(int i = 0; i < SIZE*SIZE; i++, val++){
-        *val = *val * 2 * det;        
+    char* aux = *(state->state);
+    for(int i = 0; i < SIZE*SIZE; i++, aux++){
+        char byte = *aux;
+        for(int j = 0; j < det; j++){
+            if(byte & BIT_ML){
+                byte <<= 1;
+                byte &= 127;
+                byte |= 1;
+            }else{
+                byte <<= 1;
+            }
+        }
+        *aux = byte;
     }
 }
 
 void cripto_shiftright(State* state, int det){
-    nullpointer(state);
-
-    int* val = *(state->state);
-    for(int i = 0; i < SIZE*SIZE; i++, val++){
-        *val = *val / (2 * det);
+    char* aux = *(state->state);
+    for(int i = 0; i < SIZE*SIZE; i++, aux++){
+        char byte = *aux;
+        for(int j = 0; j < det; j++){
+            if(byte & BIT_MR){
+                byte >>= 1;
+                byte |= 64;
+            }else{
+                byte >>= 1;
+            }
+        }
+        *aux = byte;
     }
 }
 
 void xordaxuxa(State* s, State* k){
-    int* a = *(s->state);
-    int* b = *(k->state);
+    char* a = *(s->state);
+    char* b = *(k->state);
     for(int i=0; i <SIZE*SIZE; i++, a++, b++)
-        *a = (*a)^(*b);
+        *a = (*a) ^ (*b);
 }
 
 void add_encryptfile(FILE * f, State* s){
-    int* val = *s->state;
+    char* val = *s->state;
     for(int i = 0; i < s->nbytes; i++){
-        fputc(*val++, f);
+        //fputc(*val++, f);
+        fprintf(f, "%c", *val++);
     }
 }
+
+void add_decipher(FILE * f, State* s){
+    char* val = *s->state;
+    for(int i = 0; i < s->nbytes; i++){
+        fprintf(f, "%c", *val++);
+    }
+}
+
 
 int normaliza(int det){
     int inter = det % LIMIT_S; // [0-256]
     float cast = (float) inter; // casting para float
-    int n = (int)(cast/LIMIT_S*10); // normaliza entre 0 e 10
+    int n = (int)(cast/LIMIT_S*6); // normaliza entre 0 e 10
     return n;
 }
 
@@ -136,14 +162,12 @@ void cripto_encrypt(char* src){
     blocks_initialize(key, cripto_generatekey());
     State* k = blocks_nextblock(key);
     int det =  normaliza(cripto_determinant(k));
-    printf("%d\n", det);
     State* s;
     FILE* f = open_file(SRC_ENCRIPTY, "w"); 
     while(s = blocks_nextblock(msg)){
         cripto_shiftleft(s, det);
         xordaxuxa(s, k);
         add_encryptfile(f,s);
-        teste(s);
     }
     
     fclose(f);
@@ -156,14 +180,12 @@ void cripto_decipher(char* src, char* src_key){
     blocks_initialize(key, src_key);
     State* k = blocks_nextblock(key);
     int det =  normaliza(cripto_determinant(k));
-    printf("%d\n", det);
     State* s;
     FILE* f = open_file(SRC_DECIPHERED, "w"); 
     while(s = blocks_nextblock(msg)){
         xordaxuxa(s, k);
         cripto_shiftright(s, det);
-        add_encryptfile(f,s);
-        teste(s);
+        add_decipher(f,s);
     }
     fclose(f);
 }
