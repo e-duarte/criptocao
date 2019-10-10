@@ -18,13 +18,6 @@ int main (int argc, char** argv){
     printf("decifrado:%c\n", c);
     return 0;
 */
-/*
-    Blockchain* msg = blocks_create();
-    Blockchain* key = blocks_create();
-    blocks_initialize(msg, "encripty_file.txt");
-    blocks_initialize(key, "privat_key.txt");
-    blocks_print(msg);
-*/
     cripto_encrypt(argv[1]);
-    //cripto_decipher("encripty_file.txt", "privat_key.txt");
+    cripto_decipher("encripty_file.txt", "privat_key.txt");
 }

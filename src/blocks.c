@@ -91,8 +91,8 @@ State* blocks_nextblock(Blockchain* bc){
     Block* b = *bc;
     State* s = (State *)malloc(sizeof(State));
     s->nbytes = b->val.nbytes;
-    for(int i = 0; i < s->nbytes/4; i++){
-        for(int j = 0; j < s->nbytes/4; j++){
+    for(int i = 0; i < SIZE; i++){
+        for(int j = 0; j < SIZE; j++){
             s->state[i][j] = b->val.state[i][j];
         }
     }
@@ -109,7 +109,7 @@ void blocks_print(Blockchain* bc){
     while(aux != NULL){
        int* val = *(aux->val.state);
        for(int i = 0; i < SIZE*SIZE; i++)
-           printf("%c ", *val++);
+           printf("%d ", *val++);
        printf("\n");
        aux = aux->prox;
     }
