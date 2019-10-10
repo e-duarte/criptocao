@@ -44,9 +44,8 @@ int eliminacao(int mat[SIZE][SIZE], int n){
             while(mat[i][i] == 0){
                 troca_linhas(mat, i,aux);
                 aux++;
-                if(aux < 4){
+                if(aux < SIZE)
                     return 0;
-                }
             }
 
             int m = (mat[j][i] / mat[i][i]);
@@ -122,12 +121,6 @@ void add_encryptfile(FILE * f, State* s){
     }
 }
 
-int normaliza(int det){
-    int inter = det % LIMIT_S; // [0-256]
-    float cast = (float) inter; // casting para float
-    int n = (int)(cast/LIMIT_S*10); // normaliza entre 0 e 10
-    return n;
-}
 
 void cripto_encrypt(char* src){
     Blockchain* msg = blocks_create();
@@ -143,7 +136,6 @@ void cripto_encrypt(char* src){
         cripto_shiftleft(s, det);
         xordaxuxa(s, k);
         add_encryptfile(f,s);
-        teste(s);
     }
     
     fclose(f);
@@ -163,7 +155,6 @@ void cripto_decipher(char* src, char* src_key){
         xordaxuxa(s, k);
         cripto_shiftright(s, det);
         add_encryptfile(f,s);
-        teste(s);
     }
     fclose(f);
 }
