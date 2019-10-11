@@ -139,20 +139,11 @@ int normaliza(int det){
     return n;
 }
 
-void teste(State* s){
-    for(int i = 0; i < SIZE; i++){
-        for(int j = 0; j < SIZE; j++){
-            printf("%d\t", s->state[i][j]);
-        }
-        printf("\n");
-    }
-}
 
 void cripto_encrypt(char* src_msg){
     Blockchain* msg = blocks_create();
     Blockchain* key = blocks_create();
     char* src_key = cripto_generatekey(src_msg);
-    printf("%s\n", src_key);
     char* src_en = NULL;
     FILE* f = NULL;
     State* k = NULL;
@@ -167,7 +158,6 @@ void cripto_encrypt(char* src_msg){
     src_en = str_replace(src_msg, file_name(src_msg), MSG_ENCRIPED);
     f = open_file(src_en, "w");
 
-    printf("DET:%d\n", det);
     while(s = blocks_nextblock(msg)){
         cripto_shiftleft(s, det);
         xordaxuxa(s, k);
