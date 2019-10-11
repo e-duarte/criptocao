@@ -3,7 +3,7 @@ Algoritmo de criptografia simétrica simpĺes
 
 # Construção do binário e execução
 Os arquivos objetos e binários estão sendo
-construídos pelo ferramente make do GNU.
+construídos pelo ferramenta make do GNU.
 
 As seguintes regras são permitas
 
