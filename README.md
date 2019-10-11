@@ -16,11 +16,10 @@ $make clean [limpa os objetos e binários]
 
 Na basta bin execute o seguinte comando para rodar o algorimto
 
-~bin/$ ./criptocao [caminho do documento]
+~bin/$ ./criptocao [opção] [caminho do documento]
 
-Na versão atual do programa o documento cifrado
-será criado na pasta raiz do programa
-
-
+opção: 
+      -c : criptografar o documento
+      -d : descriptogradar o documento
 
 Qualquer bug no programa entre em contato.
