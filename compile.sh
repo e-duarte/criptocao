@@ -6,4 +6,4 @@ gcc -c ../src/criptocao.c
 gcc -c ../src/main.c
 cd ../bin/
 gcc -o monstrinho ../obj/util.o ../obj/blocks.o ../obj/criptocao.o ../obj/main.o
-./monstrinho "../plaintext.txt"
+

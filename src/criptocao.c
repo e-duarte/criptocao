@@ -162,7 +162,6 @@ void cripto_encrypt(char* src_msg){
         cripto_shiftleft(s, det);
         xordaxuxa(s, k);
         add_encryptfile(f,s);
-        teste(s);
     }
     
     fclose(f);
