@@ -8,3 +8,4 @@ void cripto_shiftleft(State* state, int det);
 void cripto_shiftright(State* state, int det);
 void cripto_addfile(int det);
 void nullpointer(void* pointer);
+void teste(State* state);
