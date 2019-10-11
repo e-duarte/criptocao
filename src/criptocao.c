@@ -38,7 +38,7 @@ void troca_linhas(unsigned char mat[SIZE][SIZE], int n, int m){
 }
 
 
-int eliminacao(unsigned char mat[SIZE][SIZE], int n){
+int eliminate(unsigned char mat[SIZE][SIZE], int n){
     int i, j, k, m;
     for(i=0; i<n-1; i++){
         for(j=i+1; j<n; j++){
@@ -71,7 +71,7 @@ int cripto_determinant(State* state){
     
     copy_matriz(*(state->state), *mat2); 
     val = 1;
-    if(eliminacao(mat2, SIZE)){
+    if(eliminate(mat2, SIZE)){
         for(i=0; i < SIZE; i++)
             val *= mat2[i][i];
         return abs(val);
@@ -80,7 +80,7 @@ int cripto_determinant(State* state){
     return 0;    
 }
 
-void cripto_shiftleft(State* state, int det){
+void cripto_rotateshift(State* state, int det){
     int i, j;
     unsigned char* aux = *(state->state);
     for(i=0; i<SIZE*SIZE; i++, aux++){
@@ -98,7 +98,7 @@ void cripto_shiftleft(State* state, int det){
     }
 }
 
-void cripto_shiftright(State* state, int det){
+void cripto_rotateright(State* state, int det){
     unsigned char* aux = *(state->state);
     int i, j;
 
@@ -114,7 +114,7 @@ void cripto_shiftright(State* state, int det){
     }
 }
 
-void xordaxuxa(State* s, State* k){
+void xor(State* s, State* k){
     unsigned char* a = *(s->state);
     unsigned char* b = *(k->state);
     int i;
@@ -131,7 +131,7 @@ void add_encryptfile(FILE * f, State* s){
         fprintf(f, "%c", *val++);
 }
 
-void add_decipher(FILE * f, State* s){
+void add_decipherfile(FILE * f, State* s){
     unsigned char* val = *s->state;
     int i;
 
@@ -166,8 +166,8 @@ void cripto_encrypt(char* src_msg){
     f = open_file(src_en, "w");
 
     while((s = blocks_nextblock(msg))){
-        cripto_shiftleft(s, det);
-        xordaxuxa(s, k);
+        cripto_rotateshift(s, det);
+        xor(s, k);
         add_encryptfile(f,s);
     }
     
@@ -191,11 +191,10 @@ void cripto_decipher(char* src, char* src_key){
     f = open_file(src_en, "w"); 
 
     while((s = blocks_nextblock(msg))){
-        xordaxuxa(s, k);
-        cripto_shiftright(s, det);
-        add_decipher(f,s);
+        xor(s, k);
+        cripto_rotateright(s, det);
+        add_decipherfile(f,s);
     }
     
     fclose(f);
-    
 }
