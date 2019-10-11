@@ -10,9 +10,9 @@ FILE* open_file(char* src, char* mode){
 }
 
 
-void nullpointer(void* pointer){
+void nullpointer(void* pointer, char* function){
     if(pointer == NULL){
-        printf("[ERRO] NULLPOINTER\n");
+        printf("[ERRO] NULLPOINTER:function:%s\n", function);
         exit(EXIT_FAILURE);
     }
 }
@@ -34,7 +34,7 @@ char* str_replace(char* str, char* sub1, char* sub2){
     int i, j, k;
 
     aux2 = strstr(str, sub1);
-    nullpointer(aux2);
+    nullpointer(aux2, "str_replace([paramentros]) - bib util.c");
     len_str = strlen(str);
     
     for(i=0; i<len_str; i++){

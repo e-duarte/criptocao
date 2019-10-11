@@ -5,7 +5,6 @@
 
 
 int main (int argc, char** argv){
-
     if(argc > 1 ){
         cripto_encrypt(argv[1]);
         cripto_decipher("encripted.txt", "key.txt");

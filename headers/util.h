@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void nullpointer(void* pointer);
+void nullpointer(void* pointer, char* function);
 FILE* open_file(char* src, char* mode);
 int randomInteger (int low, int high);
 char* str_replace(char* str, char* sub1, char* sub2);

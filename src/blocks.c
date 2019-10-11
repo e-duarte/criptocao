@@ -63,7 +63,7 @@ void blocks_initialize(Blockchain* bc, char * src){
 
     plaintext = open_file(src, "r");
 
-    nullpointer(bc);
+    nullpointer(bc, "blocks_initialize([parametros]) - blocks.c");
     
     while((nbytes = fread(buffer, sizeof(char), SIZE*SIZE, plaintext))){
         Block* block = blocks_createblock(buffer, nbytes);
@@ -88,7 +88,7 @@ State* blocks_nextblock(Blockchain* bc){
     State* s = (State *)malloc(sizeof(State));
     int i, j;
 
-    nullpointer(bc);
+    nullpointer(bc, "blocks_nextblock([parametros]) - blocks.c");
     if(*bc == NULL)
         return NULL;
 
@@ -108,8 +108,8 @@ void blocks_print(Blockchain* bc){
     Block* aux = *bc;
     int i;
 
-    nullpointer(bc);
-    nullpointer(*bc);
+    nullpointer(bc, "blocks_print(Blockchain* bc) - blocks.c");
+    nullpointer(*bc, "blocks_print(Blockchain* bc) - blocks.c");
     
     while(aux != NULL){
        unsigned char* val = *(aux->val.state);
@@ -123,7 +123,7 @@ void blocks_print(Blockchain* bc){
 void blocks_destroy(Blockchain* bc){
     Block* b;
     
-    nullpointer(bc);
+    nullpointer(bc, "blocks_destroy([parametros]) - blocks.c");
     
     while(*bc != NULL){
         b = *bc;
@@ -132,19 +132,3 @@ void blocks_destroy(Blockchain* bc){
     }
     free(bc);
 }
-
-/*
-State* get(Blockchain* bc, int i){
-    Block* aux = *bc;
-    int r = 0;
-    while(aux != NULL && r != i){
-        aux = aux->prox;
-        r++;
-    }
-
-    if(aux == NULL)
-        return NULL;
-    return &(aux->val);
-}
-
-*/
