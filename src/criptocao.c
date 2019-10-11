@@ -140,9 +140,9 @@ void add_decipherfile(FILE * f, State* s){
 }
 
 int normaliza(int det){
-    int inter = det % LIMIT_S; /* [0-256] */
-    float cast = (float) inter; /* casting para float */
-    int n = (int)(cast/LIMIT_S*6); /* normaliza entre 0 e 10 */
+    int inter = det % LIMIT_S;
+    float cast = (float) inter;
+    int n = (int)(cast/LIMIT_S*6);
     return n;
 }
 

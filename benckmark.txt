@@ -1,0 +1,14 @@
+Execução: criptocao -c plaintext.txt
+----------------------------------------
+
+real	0m12,639s
+user	0m12,376s
+sys	0m0,036s
+
+Execução: criptocao -d encripted.txt key.txt
+----------------------------------------
+
+real	0m12,326s
+user	0m12,216s
+sys	0m0,017s
+
