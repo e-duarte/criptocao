@@ -19,8 +19,9 @@ void nullpointer(void* pointer){
 
 int randomInteger (int low, int high){
     double d;
+    int k;
     d = (double) rand () / ((double) RAND_MAX + 1);
-    int k = d * (high - low + 1);
+    k = d * (high - low + 1);
     return low + k;
 }
 
@@ -29,22 +30,23 @@ char* str_replace(char* str, char* sub1, char* sub2){
     char* new = (char*) calloc(len, sizeof(char));
     char* aux1 =  new;
     char* aux2 =  NULL;
-    aux2 = strstr(str, sub1);
+    int len_str;
+    int i, j, k;
 
+    aux2 = strstr(str, sub1);
     nullpointer(aux2);
-    int len_str = strlen(str);
-    for(int i = 0; i < len_str; i++){
+    len_str = strlen(str);
+    
+    for(i=0; i<len_str; i++){
         if(str == aux2){
             const int len_sub2 = strlen(sub2);
-            for(int j = 0; j < len_sub2; j++, aux1++, sub2++)
-                *aux1 = *sub2;
-
             const int len_sub1 = strlen(sub1);
-            for(int k = 0; k < len_sub1; k++)
+            for(j=0; j<len_sub2; j++, aux1++, sub2++)
+                *aux1 = *sub2;
+            
+            for(k=0; k<len_sub1; k++)
                 str++;
-        }else{
-            *aux1 = *str;aux1++;str++;
-        }
+        }else *aux1 = *str;aux1++;str++;
     }
     
     return new;
@@ -58,9 +60,13 @@ char* file_name(char* src_file){
 
     aux1 = new;
     aux2 = strrchr(src_file, 47);
-    nullpointer(aux2);
-    aux2++;
-    while(*aux1++ = *aux2++);
+
+    if(aux2 == NULL)
+        aux2 = src_file;
+    else
+        aux2++;
+    
+    while((*aux1++ = *aux2++));
 
     return new;
 }

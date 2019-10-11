@@ -11,29 +11,42 @@ struct node{
 typedef struct node Block;
 
 Blockchain* blocks_create(){
-    Blockchain* bc = (Blockchain*) malloc(sizeof(Blockchain));
+    Blockchain* bc;
+
+    bc = (Blockchain*) malloc(sizeof(Blockchain));
 
     if(bc != NULL)
         *bc = NULL;
     return bc;
 }
 
+/**@vitor
+ * Cria os node blocos.
+ **/
+
 Block* blocks_createblock(char* val, int nb){
-    Block* b = (Block*) malloc(sizeof(Block));
+    Block* b;
+    unsigned char* m;
+    int i;
+
+    b = (Block*) malloc(sizeof(Block));
     b->val.nbytes = nb;
     b->prox = NULL;
-    char* m = *(b->val.state);
-    for(int i=0; i<nb; i++, m++, val++){
+    m = *(b->val.state);
+
+    
+    for(i=0; i<nb; i++, m++, val++)
         *m = *val;
-    }
-    /*Preenche a matriz de estado com $
+    
+    /**
+     * Preenche a matriz de estado com $
      *caso a quantidade de bytes lidos
      * não seja igual ao tamanho do estado.
-     */
+     **/
+    
     if(nb < SIZE*SIZE){
-        for(int i=0; i<SIZE*SIZE-nb; i++, m++){
+        for(i=0; i<SIZE*SIZE-nb; i++, m++)
             *m = '$';
-        }
     }
 
     return b;
@@ -41,21 +54,25 @@ Block* blocks_createblock(char* val, int nb){
 
 
 
+/**@ewerton**/
+
 void blocks_initialize(Blockchain* bc, char * src){
-    nullpointer(bc);
-
-    FILE* plaintext = open_file(src, "r");
-
+    FILE* plaintext;
     char buffer[SIZE*SIZE];
     int nbytes;
-    while(nbytes = fread(buffer, sizeof(char), SIZE*SIZE, plaintext)){
+
+    plaintext = open_file(src, "r");
+
+    nullpointer(bc);
+    
+    while((nbytes = fread(buffer, sizeof(char), SIZE*SIZE, plaintext))){
         Block* block = blocks_createblock(buffer, nbytes);
         Block* aux = *bc, *ant = *bc;
         while(aux != NULL){
             ant = aux;
             aux = aux->prox;
         }
-       //Insere no inicio 
+       /*Insere no inicio*/ 
         if(ant ==  NULL)
             *bc = block;
         else
@@ -67,15 +84,18 @@ void blocks_initialize(Blockchain* bc, char * src){
 }
 
 State* blocks_nextblock(Blockchain* bc){
+    Block* b = *bc;
+    State* s = (State *)malloc(sizeof(State));
+    int i, j;
+
     nullpointer(bc);
     if(*bc == NULL)
         return NULL;
 
-    Block* b = *bc;
-    State* s = (State *)malloc(sizeof(State));
+    
     s->nbytes = b->val.nbytes;
-    for(int i = 0; i < SIZE; i++){
-        for(int j = 0; j < SIZE; j++){
+    for(i= 0; i < SIZE; i++){
+        for(j = 0; j < SIZE; j++){
             s->state[i][j] = b->val.state[i][j];
         }
     }
@@ -85,13 +105,15 @@ State* blocks_nextblock(Blockchain* bc){
 }
 
 void blocks_print(Blockchain* bc){
+    Block* aux = *bc;
+    int i;
+
     nullpointer(bc);
     nullpointer(*bc);
-
-    Block* aux = *bc;
+    
     while(aux != NULL){
-       char* val = *(aux->val.state);
-       for(int i = 0; i < SIZE*SIZE; i++)
+       unsigned char* val = *(aux->val.state);
+       for(i = 0; i < SIZE*SIZE; i++)
            printf("%c ", *val++);
        printf("\n");
        aux = aux->prox;
@@ -99,9 +121,10 @@ void blocks_print(Blockchain* bc){
 }
 
 void blocks_destroy(Blockchain* bc){
-    nullpointer(bc);
-
     Block* b;
+    
+    nullpointer(bc);
+    
     while(*bc != NULL){
         b = *bc;
         *bc = b->prox;
@@ -110,18 +133,3 @@ void blocks_destroy(Blockchain* bc){
     free(bc);
 }
 
-/*
-State* get(Blockchain* bc, int i){
-    Block* aux = *bc;
-    int r = 0;
-    while(aux != NULL && r != i){
-        aux = aux->prox;
-        r++;
-    }
-
-    if(aux == NULL)
-        return NULL;
-    return &(aux->val);
-}
-
-*/
