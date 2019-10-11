@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "../headers/blocks.h"
+#include "../headers/util.h"
 
 struct node{
     struct state val;
@@ -51,21 +52,7 @@ Block* blocks_createblock(char* val, int nb){
     return b;
 }
 
-void nullpointer(void* pointer){
-    if(pointer == NULL){
-        printf("[ERRO] NULLPOINTER\n");
-        exit(EXIT_FAILURE);
-    }
-}
 
-FILE* open_file(char* src, char* mode){
-    FILE* file = fopen(src, mode);
-    if(file == NULL){
-        printf("[ERRO] arquivo não encontrado\n");
-        exit(EXIT_FAILURE);
-    }
-    return file;
-}
 
 /**@ewerton**/
 
@@ -146,6 +133,7 @@ void blocks_destroy(Blockchain* bc){
     free(bc);
 }
 
+/*
 State* get(Blockchain* bc, int i){
     Block* aux = *bc;
     int r = 0;
@@ -159,3 +147,4 @@ State* get(Blockchain* bc, int i){
     return &(aux->val);
 }
 
+*/
