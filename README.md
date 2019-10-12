@@ -8,6 +8,7 @@ construídos pelo ferramenta make do GNU.
 As seguintes regras são permitas
 
 $make all [constroi os objetos e binários]
+
 $make clean [limpa os objetos e binários]
 
 [observação] para executar o make é necessário
