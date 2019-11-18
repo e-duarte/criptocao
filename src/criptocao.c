@@ -8,7 +8,7 @@
 #define BIT_ML 64
 #define BIT_MR 1
 #define LIMIT_I 0
-#define LIMIT_S 127
+#define LIMIT_S 255
 
 #define KEY "key.txt"
 #define MSG_ENCRIPED "encripted.txt"
