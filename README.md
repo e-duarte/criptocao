@@ -15,7 +15,7 @@ $make clean [limpa os objetos e binários]
              está dentro da pasta onde esta o makefile.
 
 
-Na basta bin execute o seguinte comando para rodar o algorimto
+Na pasta bin execute o seguinte comando para rodar o algorimto
 
 ~bin/$ ./criptocao [opção] [caminho do documento]
 
