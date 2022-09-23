@@ -5,9 +5,9 @@ Algoritmo de criptografia simétrica simpĺes
 Os arquivos objetos e binários estão sendo
 construídos pelo ferramenta make do GNU.
 
-As seguintes regras são permitas
+As seguintes regras são permitidas
 
-$make all [constroi os objetos e binários]
+$make all [constrói os objetos e binários]
 
 $make clean [limpa os objetos e binários]
 
@@ -15,7 +15,7 @@ $make clean [limpa os objetos e binários]
              está dentro da pasta onde esta o makefile.
 
 
-Na pasta bin execute o seguinte comando para rodar o algorimto
+Na pasta bin execute o seguinte comando para rodar o algoritmo
 
 ~bin/$ ./criptocao [opção] [caminho do documento]
 
