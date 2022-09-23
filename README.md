@@ -15,12 +15,18 @@ $make clean [limpa os objetos e binários]
              está dentro da pasta onde esta o makefile.
 
 
-Na pasta bin execute o seguinte comando para rodar o algoritmo
+Na pasta bin execute o seguinte comando para rodar o algoritmo:
 
-~bin/$ ./criptocao [opção] [caminho do documento]
+Criptografar
+  
+  ~bin/$ ./criptocao -c [caminho do documento]
 
+Descriptografar
+  
+  ~bin/$ ./criptocao -d [caminho do documento criptografado] [caminho da chave] 
+  
 opção: 
       -c : criptografar o documento
-      -d : descriptogradar o documento
+      -d : descriptografar o documento
 
 Qualquer bug no programa entre em contato.
